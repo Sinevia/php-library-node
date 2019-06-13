@@ -1,0 +1,22 @@
+{
+    "name": "sinevia/php-library-node",
+    "description": "PHP Library Node",
+    "type": "library",
+    "keywords": ["node", "library", "php", "sinevia"],    
+    "homepage": "http://github.com/sinevia/php-library-node",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Milan Lesichkov",
+            "email": "lesichkovm@gmail.com",
+            "homepage": "http://lesichkov.co.uk",
+            "role": "Lead Developer"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "src/Node.php",
+            "src/Meta.php"
+        ]
+    }
+}
