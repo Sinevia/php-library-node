@@ -18,5 +18,9 @@
             "src/Node.php",
             "src/Meta.php"
         ]
+    },
+    require: {
+        "sinevia/php-library-sqldb": ">=v3.2.0",
+        "sinevia/php-library-uid": ">=v1.8.0"
     }
 }
