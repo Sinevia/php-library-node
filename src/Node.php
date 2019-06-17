@@ -21,8 +21,8 @@ class Node extends \Sinevia\ActiveRecord
         static::getDatabase()->transactionBegin();
 
         try {
-            $new = new \App\Models\Content\Node();
-            $new->set('Id', \Sinevia\UidUtils::microUid());
+            $new = new static();
+            $new->set('Id', \Sinevia\Uid::microUid());
             $new->set('Type', $type);
             $isSaved = $new->save();
 
@@ -48,9 +48,9 @@ class Node extends \Sinevia\ActiveRecord
         static::getDatabase()->transactionBegin();
 
         try {
-            $node = \App\Models\Content\Node::find($id);
+            $node = static::find($id);
             if ($node == null) {
-                throw new RuntimeException('Node ' . $id . ' not found');
+                throw new \RuntimeException('Node ' . $id . ' not found');
                 return false;
             }
 
@@ -88,7 +88,7 @@ class Node extends \Sinevia\ActiveRecord
 
     public static function findByMetaContains($key, $value)
     {
-        $meta = \App\Models\Content\Meta::findContains($key, $value);
+        $meta = Meta::findContains($key, $value);
         if (is_null($meta)) {
             return null;
         }
@@ -97,7 +97,7 @@ class Node extends \Sinevia\ActiveRecord
 
     public static function findByMetaEquals($key, $value)
     {
-        $meta = \App\Models\Content\Meta::findEquals($key, $value);
+        $meta = Meta::findEquals($key, $value);
         if (is_null($meta)) {
             return null;
         }
@@ -136,7 +136,7 @@ class Node extends \Sinevia\ActiveRecord
 
         if (is_null($meta)) {
             $meta = new Meta();
-            $meta->set('Id', \Sinevia\UidUtils::microUid());
+            $meta->set('Id', \Sinevia\Uid::microUid());
             $meta->set('NodeId', $this->get('Id'));
             $meta->set('Key', $key);
         }
