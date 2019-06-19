@@ -139,9 +139,12 @@ class Node extends \Sinevia\ActiveRecord
             $meta->set('Id', \Sinevia\Uid::microUid());
             $meta->set('NodeId', $this->get('Id'));
             $meta->set('Key', $key);
+            $meta->set('CreatedAt', date('Y-m-d H:i:s'));  // Update CreatedAt timestamp
         }
 
         $meta->set('Value', is_array($value) ? json_encode($value) : $value);
+        
+        $meta->set('UpdatedAt', date('Y-m-d H:i:s')); // Update UpdatedAt timestamp
 
         return $meta->save() === true ? true : false;
     }
