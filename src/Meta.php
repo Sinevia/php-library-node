@@ -15,6 +15,17 @@ class Meta extends \Sinevia\ActiveRecord
     {
         return db();
     }
+    
+    public function beforeInsert()
+    {
+        $this->set('CreatedAt', date('Y-m-d H:i:s'));
+        $this->set('UpdatedAt', date('Y-m-d H:i:s'));
+    }
+
+    public function beforeUpdate()
+    {
+        $this->set('UpdatedAt', date('Y-m-d H:i:s'));
+    }
 
     public static function findByNodeAndKey($nodeId, $key)
     {
