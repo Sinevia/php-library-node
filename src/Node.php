@@ -15,7 +15,7 @@ class Node extends \Sinevia\ActiveRecord
     {
         return db();
     }
-    
+
     public function beforeInsert()
     {
         $this->set('CreatedAt', date('Y-m-d H:i:s'));
@@ -135,6 +135,22 @@ class Node extends \Sinevia\ActiveRecord
         return $meta->get('Value');
     }
 
+    public function getMetas()
+    {
+        $rows = Meta::getTable()
+            ->where('NodeId', '=', $this->get('Id'))
+            ->select();
+
+        $metas = [];
+
+        foreach ($rows as $row) {
+            $isJson = $this->isJson($row['Value']);
+            $metas[$row['Key']] = $isJson ? json_decode($row['Value']) : $row['Value'];
+        }
+
+        return $metas;
+    }
+
     /**
      * Sets key-value pair
      * @param string $key
@@ -150,11 +166,11 @@ class Node extends \Sinevia\ActiveRecord
             $meta->set('Id', \Sinevia\Uid::microUid());
             $meta->set('NodeId', $this->get('Id'));
             $meta->set('Key', $key);
-            $meta->set('CreatedAt', date('Y-m-d H:i:s'));  // Update CreatedAt timestamp
+            $meta->set('CreatedAt', date('Y-m-d H:i:s')); // Update CreatedAt timestamp
         }
 
         $meta->set('Value', is_array($value) ? json_encode($value) : $value);
-        
+
         $meta->set('UpdatedAt', date('Y-m-d H:i:s')); // Update UpdatedAt timestamp
 
         return $meta->save() === true ? true : false;
@@ -217,5 +233,11 @@ class Node extends \Sinevia\ActiveRecord
             return true;
         }
         static::getDatabase()->table(static::$table)->drop();
+    }
+
+    private function isJson($value)
+    {
+        $json = json_decode($value);
+        return $json && $value != $json;
     }
 }
