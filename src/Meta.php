@@ -77,8 +77,9 @@ class Meta extends \Sinevia\ActiveRecord
 
     public function isJson()
     {
-        $json = json_decode($this->get('Value'));
-        return $json && $str != $json;
+        $value = $this->get('Value');
+        $json = json_decode($value);
+        return $json && $value != $json;
     }
 
     /**
